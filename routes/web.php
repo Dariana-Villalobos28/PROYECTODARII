@@ -1,17 +1,43 @@
 <?php
 
+use App\Http\Controllers\ProductosController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RegistroController;
+use App\Http\Controllers\MuroController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LogoutController;
 
-use App\Http\Controllers\SugerenciasController;
+Route::get('/', function () {
+    return view('dashboard');
+})->name('Dashboard');
 
-Route::get('/', [App\Http\Controllers\FrontController::class, 'index']);
-Route::post('cart/add', [App\Http\Controllers\CartController::class, 'add'])->name('add');
-Route::get('cart/checkout', [App\Http\Controllers\CartController::class, 'checkout'])->name('checkout');
-Route::get('cart/clear', [App\Http\Controllers\CartController::class, 'clear'])->name('clear');
-Route::post('cart/removeitem', [App\Http\Controllers\CartController::class, 'removeItem'])->name('removeitem');
+//Route::get('/productos', function () {
+   // return view('productos.index');
+//})->name('ProductosIndex');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/productos', [ProductosController::class, 'index'])->name('ProductosIndex');
 
-Auth::routes();
+Route::get('/productos/create', [ProductosController::class, 'create'])->name('ProductosCreate');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/productos', [ProductosController::class, 'store'])->name('productosStore');
+
+Route::get('/productos/{producto}/edit', [ProductosController::class, 'edit'])->name('ProductosEdit');
+
+Route::patch('/productos/{producto}', [ProductosController::class, 'update'])->name('ProductosUpdate');
+
+Route::delete('/productos/{producto}', [ProductosController::class, 'destroy'])->name('ProductosDestroy');
+
+//registro
+Route::get('/registro', [RegistroController::class, 'index'])->name('RegistroIndex');
+
+Route::post('/registro', [RegistroController::class, 'store'])->name('RegistroStore');
+
+Route::get('/muro', [MuroController::class, 'index'])->name('MuroIndex');
+
+//login
+Route::get('/login', [LoginController::class, 'index'])->name('LoginIndex');
+
+Route::post('/login', [LoginController::class, 'store'])->name('LoginStore');
+
+//logout
+Route::post('/logout', [LogoutController::class, 'store'])->name('LogoutStore');
